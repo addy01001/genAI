@@ -25,21 +25,21 @@ services:
     image: grafana/loki
     ports:
       - "3100:3100"
-    command:
-      - '-config.file=/etc/loki/local-config.yaml'
-    volumes:
-      - ./loki:/etc/loki
+    # command:
+    #   - '-config.file=/etc/loki/local-config.yaml'
+    # volumes:
+    #   - ./loki:/etc/loki
     depends_on:
       - grafana
 
   random-logger:
     image: alpine
     command: sh -c "while true; do echo 'random_metric $(($RANDOM % 100))'; sleep 1; done"
-    # logging:
-    #   driver: "fluentd"
-    #   options:
-    #     fluentd-address: localhost:24224
-    #     tag: httpd.access
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: fluentd:24224
+      #   tag: httpd.access
 
   fluentd:
     build: .
