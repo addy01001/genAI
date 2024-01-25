@@ -11,8 +11,7 @@
     1. Build a custom model trained for each repository that can train on questions relevant to the repository like code standards, workflow etc..
     2. Use GenAI to index full codebase and derive basic working and startup methods
 4.  Log Analyzer
-    1. When detecting anomalies or critical errors, alert the relevant personnal with appropriate steps to be take. In conjunction with #3, AI can suggest possible changes in the code that can avoid this issue
-
+    1. When detecting anomalies or critical errors, alert the relevant personnal with appropriate steps to be take. In conjunction with #3, AI can suggest possible changes in the code to solve the issue
 ## Devops
 1. Resource Optimization
     1. Analyze the infrastructure and suggest cost cutting improvements
