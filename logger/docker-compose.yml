@@ -35,19 +35,23 @@ services:
   random-logger:
     image: alpine
     command: sh -c "while true; do echo 'random_metric $(($RANDOM % 100))'; sleep 1; done"
-    logging:
-      driver: "fluentd"
-      options:
-        fluentd-address: fluentd:24224
-      #   tag: httpd.access
+    labels:
+      logging: "promtail"
+      logging_jobname: "containerlogs"
+  
 
-  fluentd:
-    build: .
+  promtail:
+    image:  grafana/promtail:latest
+    container_name: promtail
     volumes:
-      - ./fluentd/conf:/fluentd/etc
-    ports:
-      - "24224:24224"
-      - "24224:24224/udp"
+      - ./config/promtail.yaml:/etc/promtail/docker-config.yaml
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: -config.file=/etc/promtail/docker-config.yaml
+    depends_on:
+      - loki
+    # networks:
+    #   - app
 
   cadvisor:
     image: google/cadvisor
